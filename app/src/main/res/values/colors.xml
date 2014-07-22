@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="grid_background">@android:color/holo_blue_bright</color>
+    <color name="cell_background">@android:color/black</color>
+    <color name="cell_text">@android:color/white</color>
+
+</resources>
