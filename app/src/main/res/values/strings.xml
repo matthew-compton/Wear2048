@@ -2,5 +2,6 @@
 <resources>
 
     <string name="app_name">2048</string>
+    <string name="empty"></string>
 
 </resources>

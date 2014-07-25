@@ -10,6 +10,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends Activity {
@@ -20,22 +21,7 @@ public class MainActivity extends Activity {
     private DismissOverlayView mDismissOverlayView;
     private GestureDetector mGestureDetector;
 
-    private TextView mCell_1;
-    private TextView mCell_2;
-    private TextView mCell_3;
-    private TextView mCell_4;
-    private TextView mCell_5;
-    private TextView mCell_6;
-    private TextView mCell_7;
-    private TextView mCell_8;
-    private TextView mCell_9;
-    private TextView mCell_10;
-    private TextView mCell_11;
-    private TextView mCell_12;
-    private TextView mCell_13;
-    private TextView mCell_14;
-    private TextView mCell_15;
-    private TextView mCell_16;
+    private ArrayList<TextView> cells;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +33,15 @@ public class MainActivity extends Activity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-//                mDismissOverlayView = (DismissOverlayView) findViewById(R.id.dismiss);
+                mDismissOverlayView = (DismissOverlayView) findViewById(R.id.dismiss);
                 mGestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
+
+                    @Override
+                    public boolean onDown(MotionEvent e) {
+                        Log.i(TAG, "onDown()");
+                        return true;
+                    }
+
                     @Override
                     public void onLongPress(MotionEvent e) {
                         Log.i(TAG, "onLongPress()");
@@ -62,26 +55,27 @@ public class MainActivity extends Activity {
                     }
                 });
 
-                mCell_1 = (TextView) stub.findViewById(R.id.cell_1);
-                mCell_2 = (TextView) stub.findViewById(R.id.cell_2);
-                mCell_3 = (TextView) stub.findViewById(R.id.cell_3);
-                mCell_4 = (TextView) stub.findViewById(R.id.cell_4);
-                mCell_5 = (TextView) stub.findViewById(R.id.cell_5);
-                mCell_6 = (TextView) stub.findViewById(R.id.cell_6);
-                mCell_7 = (TextView) stub.findViewById(R.id.cell_7);
-                mCell_8 = (TextView) stub.findViewById(R.id.cell_8);
-                mCell_9 = (TextView) stub.findViewById(R.id.cell_9);
-                mCell_10 = (TextView) stub.findViewById(R.id.cell_10);
-                mCell_11 = (TextView) stub.findViewById(R.id.cell_11);
-                mCell_12 = (TextView) stub.findViewById(R.id.cell_12);
-                mCell_13 = (TextView) stub.findViewById(R.id.cell_13);
-                mCell_14 = (TextView) stub.findViewById(R.id.cell_14);
-                mCell_15 = (TextView) stub.findViewById(R.id.cell_15);
-                mCell_16 = (TextView) stub.findViewById(R.id.cell_16);
+                cells = new ArrayList<TextView>();
+                cells.add((TextView) findViewById(R.id.cell_1));
+                cells.add((TextView) findViewById(R.id.cell_2));
+                cells.add((TextView) findViewById(R.id.cell_3));
+                cells.add((TextView) findViewById(R.id.cell_4));
+                cells.add((TextView) findViewById(R.id.cell_5));
+                cells.add((TextView) findViewById(R.id.cell_6));
+                cells.add((TextView) findViewById(R.id.cell_7));
+                cells.add((TextView) findViewById(R.id.cell_8));
+                cells.add((TextView) findViewById(R.id.cell_9));
+                cells.add((TextView) findViewById(R.id.cell_10));
+                cells.add((TextView) findViewById(R.id.cell_11));
+                cells.add((TextView) findViewById(R.id.cell_12));
+                cells.add((TextView) findViewById(R.id.cell_13));
+                cells.add((TextView) findViewById(R.id.cell_14));
+                cells.add((TextView) findViewById(R.id.cell_15));
+                cells.add((TextView) findViewById(R.id.cell_16));
+
+                restart();
             }
         });
-
-        restart();
     }
 
     private void restart() {
@@ -90,22 +84,9 @@ public class MainActivity extends Activity {
     }
 
     private void clear() {
-        mCell_1.setText("");
-        mCell_2.setText("");
-        mCell_3.setText("");
-        mCell_4.setText("");
-        mCell_5.setText("");
-        mCell_6.setText("");
-        mCell_7.setText("");
-        mCell_8.setText("");
-        mCell_9.setText("");
-        mCell_10.setText("");
-        mCell_11.setText("");
-        mCell_12.setText("");
-        mCell_13.setText("");
-        mCell_14.setText("");
-        mCell_15.setText("");
-        mCell_16.setText("");
+        for (TextView cell : cells) {
+            setValue(cell, null);
+        }
     }
 
     private void setup() {
@@ -115,8 +96,19 @@ public class MainActivity extends Activity {
         do {
             cell2 = r.nextInt(16) + 1;
         } while (cell1 == cell2);
-
-
+        int value1 = r.nextInt(4) + 1;
+        int value2 = r.nextInt(4) + 1;
+        setValue(cells.get(cell1), (value1 == 1) ? 4 : 2);
+        setValue(cells.get(cell2), (value2 == 1) ? 4 : 2);
     }
+
+    private void setValue(TextView cell, Integer value) {
+        if (value == null) {
+            cell.setText(R.string.empty);
+        } else {
+            cell.setText(value.toString());
+        }
+    }
+
 
 }
